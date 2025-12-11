@@ -1066,3 +1066,33 @@ body {
 .delete-btn:hover {
     background-color: #ffcdd2;
     }
+/* بهبود برای موبایل */
+@media (max-width: 768px) {
+    .hero-content h2 {
+        font-size: 1.8rem !important;
+    }
+    
+    .product-card {
+        margin-bottom: 20px;
+    }
+    
+    .section-title {
+        font-size: 1.5rem !important;
+    }
+    
+    /* دکمه‌ها بزرگتر برای موبایل */
+    .btn, .add-to-cart {
+        padding: 15px 25px !important;
+        font-size: 16px !important;
+    }
+}
+
+/* بهبود خوانایی متن */
+p, li {
+    font-size: 18px;
+    line-height: 1.8;
+}
+
+h1, h2, h3 {
+    line-height: 1.3;
+}
