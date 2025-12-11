@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پنل ادمین - ایزوگام احمدی جاما</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- هدر سایت -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1>ایزوگام احمدی جاما</h1>
+                <p>پنل مدیریت فروشگاه</p>
+            </div>
+            
+            <nav class="navbar">
+                <ul>
+                    <li><a href="index.html">خانه</a></li>
+                    <li><a href="admin.html" class="active"><i class="fas fa-cog"></i> پنل ادمین</a></li>
+                    <li><a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> خروج</a></li>
+                </ul>
+            </nav>
+            
+            <button class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- محتوای پنل ادمین -->
+    <section class="admin-container">
+        <div class="container">
+            <div class="admin-header">
+                <h2 class="section-title">پنل مدیریت فروشگاه</h2>
+                <div class="admin-info">
+                    <span id="admin-name">ادمین</span>
+                </div>
+            </div>
+            
+            <div class="admin-tabs">
+                <div class="admin-tab active" data-tab="orders">سفارشات</div>
+                <div class="admin-tab" data-tab="products">مدیریت محصولات</div>
+                <div class="admin-tab" data-tab="users">مدیریت کاربران</div>
+            </div>
+            
+            <div class="admin-content">
+                <!-- بخش سفارشات -->
+                <div class="admin-section active" id="orders-section">
+                    <h3>سفارشات اخیر</h3>
+                    <table class="orders-table">
+                        <thead>
+                            <tr>
+                                <th>شماره سفارش</th>
+                                <th>مشتری</th>
+                                <th>تاریخ</th>
+                                <th>مبلغ</th>
+                                <th>وضعیت</th>
+                                <th>عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orders-table-body">
+                            <!-- سفارشات اینجا نمایش داده می‌شوند -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- بخش مدیریت محصولات -->
+                <div class="admin-section" id="products-section">
+                    <h3>محصولات فروشگاه</h3>
+                    <table class="products-table">
+                        <thead>
+                            <tr>
+                                <th>تصویر</th>
+                                <th>نام محصول</th>
+                                <th>قیمت</th>
+                                <th>توضیحات</th>
+                                <th>عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="products-table-body">
+                            <!-- محصولات اینجا نمایش داده می‌شوند -->
+                        </tbody>
+                    </table>
+                    
+                    <div class="add-product-form">
+                        <h3>افزودن محصول جدید</h3>
+                        <form id="add-product-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="product-name">نام محصول</label>
+                                    <input type="text" id="product-name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="product-price">قیمت (تومان)</label>
+                                    <input type="number" id="product-price" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="product-image">آدرس تصویر</label>
+                                    <input type="text" id="product-image" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="product-description">توضیحات</label>
+                                    <textarea id="product-description" required></textarea>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn">افزودن محصول</button>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- بخش مدیریت کاربران -->
+                <div class="admin-section" id="users-section">
+                    <h3>کاربران سایت</h3>
+                    <table class="users-table">
+                        <thead>
+                            <tr>
+                                <th>نام</th>
+                                <th>ایمیل</th>
+                                <th>تلفن</th>
+                                <th>تاریخ ثبت‌نام</th>
+                                <th>نوع کاربر</th>
+                                <th>عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-table-body">
+                            <!-- کاربران اینجا نمایش داده می‌شوند -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="admin.js"></script>
+</body>
+</html>
