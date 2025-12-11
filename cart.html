@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سبد خرید - ایزوگام احمدی جاما</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- هدر سایت -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1>ایزوگام احمدی جاما</h1>
+                <p>تخصصی ترین فروشگاه عایق رطوبتی</p>
+            </div>
+            
+            <nav class="navbar">
+                <ul>
+                    <li><a href="index.html">خانه</a></li>
+                    <li><a href="index.html#products">محصولات</a></li>
+                    <li><a href="index.html#about">درباره ما</a></li>
+                    <li><a href="index.html#contact">تماس با ما</a></li>
+                    <li><a href="cart.html" class="active"><i class="fas fa-shopping-cart"></i> سبد خرید <span id="cart-count">0</span></a></li>
+                    <li><a href="login.html" id="auth-link"><i class="fas fa-user"></i> ورود/ثبت نام</a></li>
+                    <li><a href="admin.html" id="admin-link" style="display:none;"><i class="fas fa-cog"></i> پنل ادمین</a></li>
+                </ul>
+            </nav>
+            
+            <button class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- سبد خرید -->
+    <section class="cart-container">
+        <div class="container">
+            <h2 class="section-title">سبد خرید شما</h2>
+            
+            <div class="cart-content">
+                <div class="cart-items" id="cart-items">
+                    <!-- آیتم های سبد خرید اینجا نمایش داده می‌شوند -->
+                </div>
+                
+                <div class="cart-summary">
+                    <h3>خلاصه سفارش</h3>
+                    <div class="summary-row">
+                        <span>جمع کل:</span>
+                        <span id="subtotal">0 تومان</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>تخفیف:</span>
+                        <span id="discount">0 تومان</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>مبلغ قابل پرداخت:</span>
+                        <span id="total">0 تومان</span>
+                    </div>
+                    <button class="btn checkout-btn" id="checkout-btn">
+                        <i class="fas fa-credit-card"></i> تکمیل فرآیند خرید
+                    </button>
+                    
+                    <div class="empty-cart-message" id="empty-cart-message" style="display: none; text-align: center; padding: 30px; color: #666;">
+                        <i class="fas fa-shopping-cart fa-3x" style="margin-bottom: 20px; color: #ccc;"></i>
+                        <h3>سبد خرید شما خالی است</h3>
+                        <p>می‌توانید از صفحه محصولات، کالای مورد نظر خود را انتخاب کنید</p>
+                        <a href="index.html#products" class="btn" style="margin-top: 20px;">مشاهده محصولات</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- فوتر -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h3>ایزوگام احمدی جاما</h3>
+                    <p>مرجع تخصصی عایق رطوبتی در ایران</p>
+                </div>
+                <div class="footer-links">
+                    <h4>لینک‌های سریع</h4>
+                    <ul>
+                        <li><a href="index.html">خانه</a></li>
+                        <li><a href="index.html#products">محصولات</a></li>
+                        <li><a href="index.html#about">درباره ما</a></li>
+                        <li><a href="index.html#contact">تماس با ما</a></li>
+                        <li><a href="login.html">حساب کاربری</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h4>شبکه‌های اجتماعی</h4>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>کلیه حقوق این سایت متعلق به فروشگاه ایزوگام احمدی جاما می‌باشد. © ۱۴۰۳</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="cart.js"></script>
+</body>
+</html>
