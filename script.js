@@ -1,35 +1,33 @@
-// تعریف محصولات اولیه
 const initialProducts = [
     {
         id: 1,
         name: "ایزوگام پلیمری",
         price: 850000,
-        image: "001.jpg",
+        image: "001.jpg", // ❌ حذف images/ 
         description: "ایزوگام پلیمری با کیفیت بالا و مقاومت عالی در برابر نفوذ آب و رطوبت"
     },
     {
         id: 2,
-        name: "ایزوگام معمولی",
+        name: "ایزوگام معمولی", 
         price: 650000,
-        image: "002.jpg",
+        image: "002.jpg", // ❌ حذف images/
         description: "ایزوگام معمولی با قیمت مناسب و کارایی خوب برای سقف های شیبدار"
     },
     {
         id: 3,
         name: "ایزوگام مسلح",
         price: 950000,
-        image: "003.jpg",
+        image: "003.jpg", // ❌ حذف images/
         description: "ایزوگام مسلح شده با الیاف پلی استر برای مقاومت بیشتر"
     },
     {
         id: 4,
         name: "ایزوگام ضد حریق",
         price: 1200000,
-        image: "004.jpg",
+        image: "004.jpg", // ❌ حذف images/
         description: "ایزوگام مقاوم در برابر آتش با استانداردهای بین المللی"
     }
 ];
-
 // مدیریت سبد خرید
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
