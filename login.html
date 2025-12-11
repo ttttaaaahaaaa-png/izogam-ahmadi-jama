@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ورود / ثبت‌نام - ایزوگام احمدی جاما</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- هدر سایت -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1>ایزوگام احمدی جاما</h1>
+                <p>تخصصی ترین فروشگاه عایق رطوبتی</p>
+            </div>
+            
+            <nav class="navbar">
+                <ul>
+                    <li><a href="index.html">خانه</a></li>
+                    <li><a href="index.html#products">محصولات</a></li>
+                    <li><a href="index.html#about">درباره ما</a></li>
+                    <li><a href="index.html#contact">تماس با ما</a></li>
+                    <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> سبد خرید <span id="cart-count">0</span></a></li>
+                    <li><a href="login.html" class="active"><i class="fas fa-user"></i> ورود/ثبت نام</a></li>
+                </ul>
+            </nav>
+            
+            <button class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- بخش احراز هویت -->
+    <section class="auth-container">
+        <div class="container">
+            <div class="auth-box">
+                <h2>حساب کاربری</h2>
+                
+                <div class="auth-tabs">
+                    <div class="auth-tab active" data-tab="login">ورود</div>
+                    <div class="auth-tab" data-tab="register">ثبت‌نام</div>
+                </div>
+                
+                <!-- فرم ورود -->
+                <form id="login-form" class="auth-form active">
+                    <input type="email" id="login-email" placeholder="ایمیل" required>
+                    <input type="password" id="login-password" placeholder="رمز عبور" required>
+                    <button type="submit" class="btn">ورود به حساب</button>
+                    
+                    <div class="auth-links">
+                        <a href="#" id="forgot-password">فراموشی رمز عبور</a>
+                    </div>
+                </form>
+                
+                <!-- فرم ثبت‌نام -->
+                <form id="register-form" class="auth-form">
+                    <input type="text" id="register-name" placeholder="نام و نام خانوادگی" required>
+                    <input type="email" id="register-email" placeholder="ایمیل" required>
+                    <input type="tel" id="register-phone" placeholder="تلفن همراه">
+                    <input type="password" id="register-password" placeholder="رمز عبور" required>
+                    <input type="password" id="register-confirm-password" placeholder="تکرار رمز عبور" required>
+                    <button type="submit" class="btn">ثبت‌نام</button>
+                </form>
+                
+                <div class="auth-message" id="auth-message"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- فوتر -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h3>ایزوگام احمدی جاما</h3>
+                    <p>مرجع تخصصی عایق رطوبتی در ایران</p>
+                </div>
+                <div class="footer-links">
+                    <h4>لینک‌های سریع</h4>
+                    <ul>
+                        <li><a href="index.html">خانه</a></li>
+                        <li><a href="index.html#products">محصولات</a></li>
+                        <li><a href="index.html#about">درباره ما</a></li>
+                        <li><a href="index.html#contact">تماس با ما</a></li>
+                        <li><a href="login.html">حساب کاربری</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h4>شبکه‌های اجتماعی</h4>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>کلیه حقوق این سایت متعلق به فروشگاه ایزوگام احمدی جاما می‌باشد. © ۱۴۰۳</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="auth.js"></script>
+</body>
+</html>
