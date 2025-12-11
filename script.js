@@ -4,28 +4,28 @@ const initialProducts = [
         id: 1,
         name: "ایزوگام پلیمری",
         price: 850000,
-        image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80",
+        image: "001.jpg",
         description: "ایزوگام پلیمری با کیفیت بالا و مقاومت عالی در برابر نفوذ آب و رطوبت"
     },
     {
         id: 2,
         name: "ایزوگام معمولی",
         price: 650000,
-        image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80",
+        image: "002.jpg",
         description: "ایزوگام معمولی با قیمت مناسب و کارایی خوب برای سقف های شیبدار"
     },
     {
         id: 3,
         name: "ایزوگام مسلح",
         price: 950000,
-        image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80",
+        image: "003.jpg",
         description: "ایزوگام مسلح شده با الیاف پلی استر برای مقاومت بیشتر"
     },
     {
         id: 4,
         name: "ایزوگام ضد حریق",
         price: 1200000,
-        image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80",
+        image: "004.jpg",
         description: "ایزوگام مقاوم در برابر آتش با استانداردهای بین المللی"
     }
 ];
