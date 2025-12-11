@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ایزوگام احمدی جاما - فروشگاه تخصصی عایق رطوبتی</title>
+    <meta name="description" content="فروشگاه تخصصی ایزوگام و عایق رطوبتی احمدی جاما با کیفیت بالا و قیمت مناسب">
+    <meta name="keywords" content="ایزوگام, عایق رطوبتی, قیر, عایق بام, ایزوگام احمدی جاما">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- هدر سایت -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1>ایزوگام احمدی جاما</h1>
+                <p>تخصصی ترین فروشگاه عایق رطوبتی</p>
+            </div>
+            
+            <nav class="navbar">
+                <ul>
+                    <li><a href="index.html" class="active">خانه</a></li>
+                    <li><a href="#products">محصولات</a></li>
+                    <li><a href="#about">درباره ما</a></li>
+                    <li><a href="#contact">تماس با ما</a></li>
+                    <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> سبد خرید <span id="cart-count">0</span></a></li>
+                    <li><a href="login.html" id="auth-link"><i class="fas fa-user"></i> ورود/ثبت نام</a></li>
+                    <li><a href="admin.html" id="admin-link" style="display:none;"><i class="fas fa-cog"></i> پنل ادمین</a></li>
+                </ul>
+            </nav>
+            
+            <button class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- بنر اصلی -->
+    <section class="hero">
+        <div class="hero-content">
+            <h2>بهترین ایزوگام با بالاترین کیفیت</h2>
+            <p>عایق رطوبتی درجه یک برای تمامی سطوح ساختمان</p>
+            <a href="#products" class="btn">مشاهده محصولات</a>
+        </div>
+    </section>
+
+    <!-- بخش محصولات -->
+    <section id="products" class="products">
+        <div class="container">
+            <h2 class="section-title">محصولات ما</h2>
+            <div class="products-grid" id="products-container">
+                <!-- محصولات توسط جاوااسکریپت لود می‌شوند -->
+            </div>
+        </div>
+    </section>
+
+    <!-- درباره ما -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">درباره ایزوگام احمدی جاما</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>شرکت ایزوگام احمدی جاما با بیش از ۱۵ سال سابقه در زمینه تولید و توزیع انواع عایق رطوبتی و ایزوگام، همواره کیفیت را اولویت اول خود قرار داده است.</p>
+                    <p>محصولات ما با استفاده از بهترین مواد اولیه و تکنولوژی روز دنیا تولید می‌شوند و گواهینامه‌های استاندارد ملی و بین‌المللی را دریافت کرده‌اند.</p>
+                    <p>ما با ارائه محصولات متنوع و خدمات پس از فروش قوی، رضایت مشتریان خود را جلب کرده‌ایم.</p>
+                </div>
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80" alt="ایزوگام احمدی جاما">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- تماس با ما -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">تماس با ما</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>اطلاعات تماس</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> آدرس: تهران، خیابان ولیعصر، پلاک ۱۲۳۴</p>
+                    <p><i class="fas fa-phone"></i> تلفن: ۰۲۱-۱۲۳۴۵۶۷۸</p>
+                    <p><i class="fas fa-envelope"></i> ایمیل: info@ahmadi-jama.ir</p>
+                    <p><i class="fas fa-clock"></i> ساعت کاری: شنبه تا پنجشنبه ۸ صبح تا ۵ عصر</p>
+                </div>
+                <div class="contact-form">
+                    <h3>پیام به ما</h3>
+                    <form id="contact-form">
+                        <input type="text" placeholder="نام و نام خانوادگی" required>
+                        <input type="email" placeholder="ایمیل" required>
+                        <input type="tel" placeholder="تلفن تماس">
+                        <textarea placeholder="متن پیام" rows="5" required></textarea>
+                        <button type="submit" class="btn">ارسال پیام</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- فوتر -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h3>ایزوگام احمدی جاما</h3>
+                    <p>مرجع تخصصی عایق رطوبتی در ایران</p>
+                </div>
+                <div class="footer-links">
+                    <h4>لینک‌های سریع</h4>
+                    <ul>
+                        <li><a href="index.html">خانه</a></li>
+                        <li><a href="#products">محصولات</a></li>
+                        <li><a href="#about">درباره ما</a></li>
+                        <li><a href="#contact">تماس با ما</a></li>
+                        <li><a href="login.html">حساب کاربری</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h4>شبکه‌های اجتماعی</h4>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>کلیه حقوق این سایت متعلق به فروشگاه ایزوگام احمدی جاما می‌باشد. © ۱۴۰۳</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
