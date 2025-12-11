@@ -1,294 +1,128 @@
-// admin.js - اضافه کردن توابع آپلود عکس
-
-// آپلود عکس به صورت مجازی (در localStorage ذخیره می‌شود)
-function uploadImage(file) {
-    return new Promise((resolve, reject) => {
-        // شبیه‌سازی آپلود
-        const reader = new FileReader();
-        
-        reader.onloadstart = function() {
-            // نمایش نوار پیشرفت
-            document.getElementById('upload-progress').style.display = 'block';
-            updateProgress(0);
-        };
-        
-        reader.onprogress = function(event) {
-            if (event.lengthComputable) {
-                const percentLoaded = Math.round((event.loaded / event.total) * 100);
-                updateProgress(percentLoaded);
-            }
-        };
-        
-        reader.onload = function(event) {
-            // شبیه‌سازی تاخیر در آپلود
-            setTimeout(() => {
-                // ذخیره تصویر در localStorage
-                const imageId = 'img_' + Date.now();
-                const imageData = {
-                    id: imageId,
-                    name: file.name,
-                    type: file.type,
-                    size: file.size,
-                    data: event.target.result, // داده Base64
-                    uploadDate: new Date().toLocaleString('fa-IR')
-                };
-                
-                // ذخیره در localStorage
-                const uploadedImages = JSON.parse(localStorage.getItem('uploadedImages')) || [];
-                uploadedImages.push(imageData);
-                localStorage.setItem('uploadedImages', JSON.stringify(uploadedImages));
-                
-                // تکمیل نوار پیشرفت
-                updateProgress(100);
-                
-                setTimeout(() => {
-                    document.getElementById('upload-progress').style.display = 'none';
-                    resolve({
-                        id: imageId,
-                        url: event.target.result, // URL داده Base64
-                        name: file.name
-                    });
-                }, 500);
-            }, 1000);
-        };
-        
-        reader.onerror = function() {
-            reject('خطا در خواندن فایل');
-        };
-        
-        reader.readAsDataURL(file);
-    });
-}
-
-// به‌روزرسانی نوار پیشرفت
-function updateProgress(percent) {
-    const progressFill = document.getElementById('progress-fill');
-    const progressText = document.getElementById('progress-text');
+// ویرایش محصول با امکان تغییر عکس
+function editProduct(productId) {
+    const product = products.find(p => p.id === productId);
+    if (!product) return;
     
-    if (progressFill) {
-        progressFill.style.width = percent + '%';
-    }
-    
-    if (progressText) {
-        progressText.textContent = percent + '%';
-    }
-}
-
-// نمایش پیش‌نمایش تصویر
-function showImagePreview(file) {
-    const reader = new FileReader();
-    const preview = document.getElementById('image-preview');
-    
-    reader.onload = function(e) {
-        preview.innerHTML = `
-            <img src="${e.target.result}" alt="پیش‌نمایش">
-            <div class="image-info">
-                <span>${file.name}</span>
-                <small>${(file.size / 1024).toFixed(2)} KB</small>
+    // ایجاد مودال ویرایش
+    const modal = document.createElement('div');
+    modal.className = 'edit-product-modal';
+    modal.innerHTML = `
+        <div class="edit-product-content">
+            <div class="modal-header">
+                <h3>ویرایش محصول</h3>
+                <button class="close-modal">&times;</button>
             </div>
-        `;
-    };
-    
-    reader.readAsDataURL(file);
-}
-
-// نمایش تصاویر آپلود شده
-function displayUploadedImages() {
-    const uploadedImages = JSON.parse(localStorage.getItem('uploadedImages')) || [];
-    const imagesGrid = document.getElementById('uploaded-images-grid');
-    
-    if (!imagesGrid) return;
-    
-    imagesGrid.innerHTML = '';
-    
-    if (uploadedImages.length === 0) {
-        imagesGrid.innerHTML = `
-            <div class="no-images">
-                <i class="fas fa-images fa-2x"></i>
-                <p>هیچ تصویری آپلود نشده است</p>
-            </div>
-        `;
-        return;
-    }
-    
-    // نمایش 12 تصویر آخر
-    const recentImages = uploadedImages.slice(-12).reverse();
-    
-    recentImages.forEach(image => {
-        const imageElement = document.createElement('div');
-        imageElement.className = 'uploaded-image-item';
-        imageElement.innerHTML = `
-            <div class="image-thumbnail">
-                <img src="${image.data}" alt="${image.name}">
-                <div class="image-actions">
-                    <button class="action-btn use-image-btn" onclick="useImage('${image.data}')" title="استفاده از این تصویر">
-                        <i class="fas fa-check"></i>
-                    </button>
-                    <button class="action-btn delete-image-btn" onclick="deleteImage('${image.id}')" title="حذف تصویر">
-                        <i class="fas fa-trash"></i>
-                    </button>
+            <form id="edit-product-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="edit-product-name">نام محصول</label>
+                        <input type="text" id="edit-product-name" value="${product.name}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-product-price">قیمت (تومان)</label>
+                        <input type="number" id="edit-product-price" value="${product.price}" required>
+                    </div>
                 </div>
-            </div>
-            <div class="image-name">${image.name}</div>
-        `;
-        
-        imagesGrid.appendChild(imageElement);
-    });
-}
-
-// استفاده از تصویر آپلود شده
-function useImage(imageUrl) {
-    document.getElementById('product-image-url').value = imageUrl;
-    document.getElementById('image-preview').innerHTML = `
-        <img src="${imageUrl}" alt="تصویر انتخاب شده">
-        <div class="image-info">
-            <span>تصویر انتخاب شده</span>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>تصویر فعلی</label>
+                        <div class="current-image">
+                            <img src="${product.image}" alt="${product.name}" style="max-width: 100px; border-radius: 5px;">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-product-image-upload">تغییر تصویر (اختیاری)</label>
+                            <input type="file" id="edit-product-image-upload" accept="image/*">
+                            <small>فرمت‌های مجاز: JPG, PNG, GIF - حداکثر حجم: 2MB</small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-product-description">توضیحات</label>
+                        <textarea id="edit-product-description" required>${product.description}</textarea>
+                    </div>
+                </div>
+                <div class="form-buttons">
+                    <button type="submit" class="btn">ذخیره تغییرات</button>
+                    <button type="button" class="btn-secondary close-modal">انصراف</button>
+                </div>
+            </form>
         </div>
     `;
     
-    showNotification('تصویر برای محصول انتخاب شد', 'success');
-}
-
-// حذف تصویر آپلود شده
-function deleteImage(imageId) {
-    if (confirm('آیا از حذف این تصویر اطمینان دارید؟')) {
-        const uploadedImages = JSON.parse(localStorage.getItem('uploadedImages')) || [];
-        const updatedImages = uploadedImages.filter(img => img.id !== imageId);
-        localStorage.setItem('uploadedImages', JSON.stringify(updatedImages));
-        
-        displayUploadedImages();
-        showNotification('تصویر با موفقیت حذف شد', 'success');
-    }
-}
-
-// تنظیم آپلود عکس
-function setupImageUpload() {
-    const imageUpload = document.getElementById('product-image-upload');
-    const chooseImageBtn = document.getElementById('choose-image-btn');
-    const imagePreview = document.getElementById('image-preview');
+    document.body.appendChild(modal);
     
-    if (!imageUpload || !chooseImageBtn) return;
-    
-    // کلیک روی دکمه انتخاب تصویر
-    chooseImageBtn.addEventListener('click', () => {
-        imageUpload.click();
+    // رویداد بستن مودال
+    const closeButtons = modal.querySelectorAll('.close-modal');
+    closeButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.body.removeChild(modal);
+        });
     });
     
-    // تغییر در input فایل
-    imageUpload.addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        
-        if (!file) return;
-        
-        // اعتبارسنجی فایل
-        const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
-        const maxSize = 2 * 1024 * 1024; // 2MB
-        
-        if (!validTypes.includes(file.type)) {
-            showNotification('فقط فایل‌های تصویری (JPG, PNG, GIF) مجاز هستند', 'error');
-            return;
-        }
-        
-        if (file.size > maxSize) {
-            showNotification('حجم فایل نباید بیشتر از 2 مگابایت باشد', 'error');
-            return;
-        }
-        
-        // نمایش پیش‌نمایش
-        showImagePreview(file);
-        
-        // آپلود تصویر
-        uploadImage(file)
-            .then(result => {
-                document.getElementById('product-image-url').value = result.url;
-                showNotification(`تصویر "${result.name}" با موفقیت آپلود شد`, 'success');
-                displayUploadedImages();
-            })
-            .catch(error => {
-                showNotification('خطا در آپلود تصویر: ' + error, 'error');
-            });
-    });
-    
-    // امکان کشیدن و رها کردن (drag and drop)
-    imagePreview.addEventListener('dragover', function(e) {
+    // رویداد ارسال فرم
+    const form = modal.querySelector('#edit-product-form');
+    form.addEventListener('submit', function(e) {
         e.preventDefault();
-        this.classList.add('dragover');
-    });
-    
-    imagePreview.addEventListener('dragleave', function(e) {
-        e.preventDefault();
-        this.classList.remove('dragover');
-    });
-    
-    imagePreview.addEventListener('drop', function(e) {
-        e.preventDefault();
-        this.classList.remove('dragover');
         
-        const file = e.dataTransfer.files[0];
-        if (file && file.type.startsWith('image/')) {
-            // شبیه‌سازی تغییر input فایل
-            const dataTransfer = new DataTransfer();
-            dataTransfer.items.add(file);
-            imageUpload.files = dataTransfer.files;
+        const updatedName = document.getElementById('edit-product-name').value;
+        const updatedPrice = parseInt(document.getElementById('edit-product-price').value);
+        const updatedDescription = document.getElementById('edit-product-description').value;
+        const imageUpload = document.getElementById('edit-product-image-upload');
+        
+        // به‌روزرسانی محصول
+        product.name = updatedName;
+        product.price = updatedPrice;
+        product.description = updatedDescription;
+        
+        // اگر تصویر جدید آپلود شده
+        if (imageUpload.files.length > 0) {
+            const file = imageUpload.files[0];
             
-            // اجرای رویداد تغییر
-            const event = new Event('change');
-            imageUpload.dispatchEvent(event);
+            // اعتبارسنجی فایل
+            const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+            const maxSize = 2 * 1024 * 1024; // 2MB
+            
+            if (!validTypes.includes(file.type)) {
+                showNotification('فقط فایل‌های تصویری (JPG, PNG, GIF) مجاز هستند', 'error');
+                return;
+            }
+            
+            if (file.size > maxSize) {
+                showNotification('حجم فایل نباید بیشتر از 2 مگابایت باشد', 'error');
+                return;
+            }
+            
+            // آپلود تصویر جدید
+            uploadImage(file)
+                .then(result => {
+                    product.image = result.url;
+                    saveAndClose();
+                })
+                .catch(error => {
+                    showNotification('خطا در آپلود تصویر جدید: ' + error, 'error');
+                });
+        } else {
+            saveAndClose();
+        }
+        
+        function saveAndClose() {
+            // ذخیره تغییرات
+            localStorage.setItem('products', JSON.stringify(products));
+            
+            // به‌روزرسانی نمایش
+            displayAdminProducts();
+            
+            // بستن مودال
+            document.body.removeChild(modal);
+            
+            // نمایش پیام موفقیت
+            showNotification('محصول با موفقیت ویرایش شد', 'success');
+        }
+    });
+    
+    // جلوگیری از بسته شدن مودال با کلیک روی پس‌زمینه
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            document.body.removeChild(modal);
         }
     });
 }
-
-// اصلاح تابع addProduct برای استفاده از آپلود عکس
-function addProduct(event) {
-    event.preventDefault();
-    
-    const name = document.getElementById('product-name').value;
-    const price = parseInt(document.getElementById('product-price').value);
-    const imageUrl = document.getElementById('product-image-url').value;
-    const description = document.getElementById('product-description').value;
-    
-    // اعتبارسنجی
-    if (!imageUrl) {
-        showNotification('لطفا یک تصویر برای محصول انتخاب کنید', 'error');
-        return;
-    }
-    
-    // ایجاد محصول جدید
-    const newProduct = {
-        id: products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1,
-        name,
-        price,
-        image: imageUrl,
-        description
-    };
-    
-    // اضافه کردن محصول به لیست
-    products.push(newProduct);
-    
-    // ذخیره در localStorage
-    localStorage.setItem('products', JSON.stringify(products));
-    
-    // به‌روزرسانی نمایش
-    displayAdminProducts();
-    
-    // ریست فرم
-    document.getElementById('add-product-form').reset();
-    document.getElementById('image-preview').innerHTML = '<span>هیچ تصویری انتخاب نشده است</span>';
-    document.getElementById('product-image-url').value = '';
-    
-    // نمایش پیام موفقیت
-    showNotification('محصول جدید با موفقیت اضافه شد', 'success');
-}
-
-// در بارگذاری اولیه، setupImageUpload را فراخوانی کنید
-document.addEventListener('DOMContentLoaded', function() {
-    // ... کدهای قبلی ...
-    
-    // تنظیم آپلود عکس
-    setupImageUpload();
-    
-    // نمایش تصاویر آپلود شده
-    displayUploadedImages();
-    
-    // ... کدهای قبلی ...
-});
