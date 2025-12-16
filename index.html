@@ -118,6 +118,15 @@
     <meta name="keywords" content="ایزوگام, عایق رطوبتی, قیر, عایق بام, ایزوگام احمدی جاما">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+<script>
+// ثبت سرویس ورکر برای آفلاین
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js')
+    .then(reg => console.log('Service Worker ثبت شد', reg))
+    .catch(err => console.log('خطا در ثبت', err));
+}
+</script>
 </head>
 <body>
     <!-- هدر سایت -->
