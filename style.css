@@ -1105,3 +1105,21 @@ img {
 
 /* کاهش درخواست‌های HTTP */
 /* حذف فونت‌های غیرضروری اگر استفاده نمی‌کنی */
+
+/* Cumulative Layout Shift (CLS) بهینه */
+img, video {
+  width: 100%;
+  height: auto;
+  aspect-ratio: attr(width) / attr(height);
+}
+
+/* Largest Contentful Paint (LCP) بهبود */
+.hero-image {
+  fetchpriority: high;
+  loading: eager;
+}
+
+/* First Input Delay (FID) کاهش */
+button, a {
+  touch-action: manipulation;
+}
