@@ -1,0 +1,21 @@
+name: SEO Automation
+on:
+  schedule:
+    - cron: '0 0 * * *'  # هر روز
+  push:
+    branches: [ main ]
+
+jobs:
+  seo-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Check SEO
+        run: |
+          npm install -g lighthouse
+          lighthouse https://username.github.io/repo-name/ --output json --output-path ./lhreport.json
+      - name: Upload Report
+        uses: actions/upload-artifact@v2
+        with:
+          name: lighthouse-report
+          path: ./lhreport.json
