@@ -1,6 +1,24 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
+ <!-- در <head> اضافه کن -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX', {
+    'page_title': 'ایزوگام احمدی جاما',
+    'page_location': window.location.href
+  });
+  
+  // ردیابی تبدیل‌ها
+  gtag('event', 'conversion', {
+    'send_to': 'AW-XXXXXXXX/YYYYYYYYYYYY',
+    'value': 1.0,
+    'currency': 'IRR'
+  });
+</script>
  <script type="application/ld+json">
 {
   "@context": "https://schema.org",
