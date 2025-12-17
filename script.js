@@ -1,3 +1,24 @@
+<script>
+  window.embeddedChatbotConfig = {
+    chatbotId: "XXXXXXX",
+    domain: "www.chatbase.co"
+  };
+</script>
+<script src="https://www.chatbase.co/embed.min.js" defer></script>
+// سیستم پیشنهاد محصولات
+function getProductRecommendations(userBehavior) {
+  const recommendations = {
+    viewed: [2, 3, 4],
+    purchased: [1, 2],
+    inCart: [3]
+  };
+  
+  // الگوریتم ساده پیشنهاد
+  return products.filter(p => 
+    !userBehavior.viewed.includes(p.id) && 
+    p.price < 1000000
+  ).slice(0, 3);
+}
 const initialProducts = [
     {
         id: 1,
