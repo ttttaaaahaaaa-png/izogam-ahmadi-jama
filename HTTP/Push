@@ -1,0 +1,4 @@
+<!-- در هدر سرور باید تنظیم شود -->
+<link rel="preload" href="style.css" as="style">
+<link rel="preload" href="script.js" as="script">
+<link rel="preload" href="001.jpg" as="image">
