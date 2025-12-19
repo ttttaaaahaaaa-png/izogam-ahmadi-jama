@@ -27,10 +27,9 @@
     
     <!-- Canonical URL -->
     <link rel="canonical" href="https://100isogam.com">
-    <!-- در بخش head اضافه کنید -->
-    <!-- در بخش <head> این کدها را اضافه کنید -->
-<link rel="shortcut icon" href="izogam-mamoli.jpg" type="image/jpeg">
-<link rel="icon" href="izogam-mamoli.jpg" type="image/jpeg">
+    
+    <!-- Favicon لوکال -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚧</text></svg>">
     
     <!-- Structured Data -->
     <script type="application/ld+json">
@@ -913,7 +912,7 @@
                     id: 0,
                     name: 'مدیر سیستم',
                     email: 'admin@100isogam.com',
-                    phone: '09188528650', // تغییر شماره
+                    phone: '09188528650',
                     password: 'admin123',
                     role: 'admin',
                     avatar: '',
@@ -942,7 +941,7 @@
             
             console.log('🚀 سایت ۱۰۰ ایزوگام آماده است');
             console.log('👑 ادمین: admin@100isogam.com / admin123');
-            console.log('📞 شماره تماس جدید: 09188528650');
+            console.log('📞 شماره تماس: 09188528650');
         });
 
         // ==================== توابع اضافی ====================
@@ -955,8 +954,9 @@
                     <div class="product-card">
                         <div class="product-image">
                             ${product.badge ? `<div class="product-badge">${product.badge}</div>` : ''}
-                            <img src="${product.image}" alt="${product.name}" 
-                                 onerror="this.src='https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80'">
+                            <div style="width:100%;height:100%;background:linear-gradient(45deg,#f0f0f0,#e0e0e0);display:flex;align-items:center;justify-content:center;">
+                                <i class="fas fa-hard-hat" style="font-size:4rem;color:#ccc;"></i>
+                            </div>
                         </div>
                         <div class="product-content">
                             <h3 class="product-title">${product.name}</h3>
@@ -1046,4 +1046,4 @@
         }
     </script>
 </body>
-        </html>
+</html>
