@@ -8,7 +8,7 @@
     <!-- متا تگ تایید گوگل سرچ کنسول -->
     <meta name="google-site-verification" content="SSTe_k4cLQvs29sdAPbJAHfMpRhwpcVuXOcf4DT-ccc" />
     
-    <!-- متا تگ‌های سئو اضافه شده از کد اول -->
+    <!-- متا تگ‌های سئو -->
     <meta name="description" content="فروش تخصصی انواع ایزوگام و عایق رطوبتی با بهترین قیمت در تهران - ۲۰ سال سابقه درخشان - گارانتی کیفیت">
     <meta name="keywords" content="ایزوگام, قیمت ایزوگام, فروش ایزوگام, نصب ایزوگام, ایزوگام تهران, عایق رطوبتی, قیر و گونی, عایق بام, واترپروفینگ, ایزوگام سقف">
     <meta name="author" content="ایزوگام احمدی جاما">
@@ -38,7 +38,7 @@
         "description": "فروش تخصصی انواع ایزوگام و عایق رطوبتی با بهترین قیمت در تهران",
         "@id": "https://100isogam.com",
         "url": "https://100isogam.com",
-        "telephone": "۰۹۳۳۵۱۲۴۷۳۶",
+        "telephone": "۰۹۱۸۸۵۲۸۶۵۰",
         "address": {
             "@type": "PostalAddress",
             "streetAddress": "تهران، خیابان ولیعصر",
@@ -574,7 +574,7 @@
                 <i class="fas fa-box-open"></i> محصولات ما
             </h2>
             <p style="text-align:center;color:#666;margin-bottom:50px;font-size:1.1rem;">
-                با کیفیت ترین ایزوگام ها با گارانتی ۱۰ ساله
+                با کیفیت ترین ایزوگام ها با گارانتی ۱۰ ساله - قیمت مناسب
             </p>
             
             <div id="productsContainer" class="products-grid"></div>
@@ -623,7 +623,7 @@
                     <div style="display:flex;flex-direction:column;gap:15px;">
                         <div style="display:flex;align-items:center;gap:15px;">
                             <i class="fas fa-phone" style="color:var(--secondary);"></i>
-                            <span>۰۹۳۳۵۱۲۴۷۳۶</span>
+                            <span style="font-weight:bold;font-size:1.1rem;color:#1a237e;">۰۹۱۸۸۵۲۸۶۵۰</span>
                         </div>
                         <div style="display:flex;align-items:center;gap:15px;">
                             <i class="fas fa-envelope" style="color:var(--secondary);"></i>
@@ -686,11 +686,14 @@
 
     <script>
         // ==================== داده‌های اولیه ====================
+        // تغییر: قیمت‌ها به حدود 100 هزار تومان کاهش یافت
         let products = JSON.parse(localStorage.getItem('100isogam_products')) || [
-            {id: 1, name: 'ایزوگام پلیمری', price: 850000, category: 'پلیمری', image: 'izogam-polymeri.jpg', badge: 'پرفروش'},
-            {id: 2, name: 'ایزوگام تقویت شده', price: 950000, category: 'تقویت شده', image: 'izogam-taghviat.jpg', badge: 'جدید'},
-            {id: 3, name: 'ایزوگام مایع', price: 750000, category: 'مایع', image: 'izogam-mae.jpg', badge: 'اقتصادی'},
-            {id: 4, name: 'ایزوگام خود چسب', price: 890000, category: 'خود چسب', image: 'izogam-khod-chasb.jpg', badge: 'پیشنهاد'}
+            {id: 1, name: 'ایزوگام پلیمری', price: 115000, category: 'پلیمری', image: 'izogam-polymeri.jpg', badge: 'پرفروش'},
+            {id: 2, name: 'ایزوگام تقویت شده', price: 125000, category: 'تقویت شده', image: 'izogam-taghviat.jpg', badge: 'جدید'},
+            {id: 3, name: 'ایزوگام مایع', price: 98000, category: 'مایع', image: 'izogam-mae.jpg', badge: 'اقتصادی'},
+            {id: 4, name: 'ایزوگام خود چسب', price: 105000, category: 'خود چسب', image: 'izogam-khod-chasb.jpg', badge: 'پیشنهاد'},
+            {id: 5, name: 'ایزوگام معمولی', price: 85000, category: 'معمولی', image: 'izogam-mamoli.jpg', badge: 'ارزان'},
+            {id: 6, name: 'ایزوگام ضد حریق', price: 135000, category: 'ضد حریق', image: 'izogam-zed-harigh.jpg', badge: 'ویژه'}
         ];
         
         let users = JSON.parse(localStorage.getItem('100isogam_users')) || [];
@@ -906,7 +909,7 @@
                     id: 0,
                     name: 'مدیر سیستم',
                     email: 'admin@100isogam.com',
-                    phone: '09188528650',
+                    phone: '09188528650', // تغییر شماره
                     password: 'admin123',
                     role: 'admin',
                     avatar: '',
@@ -935,6 +938,7 @@
             
             console.log('🚀 سایت ۱۰۰ ایزوگام آماده است');
             console.log('👑 ادمین: admin@100isogam.com / admin123');
+            console.log('📞 شماره تماس جدید: 09188528650');
         });
 
         // ==================== توابع اضافی ====================
@@ -1026,6 +1030,7 @@
                 <div style="text-align:right;">
                     <h4 style="margin-bottom:10px;">✅ سفارش شما ثبت شد!</h4>
                     <p style="color:#666;font-size:0.9rem;">شماره سفارش: #${order.id}</p>
+                    <p style="color:#666;font-size:0.9rem;">برای پیگیری با شماره <strong>۰۹۱۸۸۵۲۸۶۵۰</strong> تماس بگیرید</p>
                 </div>
             `);
             
@@ -1033,8 +1038,8 @@
             document.querySelector('.modal.active').remove();
             
             console.log(`📦 سفارش جدید #${order.id} از ${currentUser.name}`);
-            console.log(`📞 اطلاع به ادمین : 09188528650 `);
+            console.log(`📞 اطلاع به ادمین: 09188528650`);
         }
     </script>
 </body>
-</html>
+        </html>
