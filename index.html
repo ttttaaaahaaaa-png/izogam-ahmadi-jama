@@ -5,6 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>۱۰۰ ایزوگام احمدی جاما | فروشگاه عایق رطوبتی</title>
     
+    <!-- ========== FAVICON OPTIONS ========== -->
+    <!-- انتخاب کنید کدام را می‌خواهید استفاده کنید -->
+    
+    <!-- گزینه ۱: ایموجی ساختمان (پیشنهادی) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏗️</text></svg>">
+    <link rel="shortcut icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏗️</text></svg>">
+    
+    <!-- گزینه ۲: ایموجی کلاه ایمنی -->
+    <!--
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⛑️</text></svg>">
+    <link rel="shortcut icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em% font-size=%2290%22>⛑️</text></svg>">
+    -->
+    
+    <!-- گزینه ۳: ایموجی آجر -->
+    <!--
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧱</text></svg>">
+    <link rel="shortcut icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧱</text></svg>">
+    -->
+    
+    <!-- گزینه ۴: آیکون آنلاین (اگر اینترنت دارید) -->
+    <!--
+    <link rel="icon" href="https://img.icons8.com/color/96/000000/roof.png" type="image/png">
+    <link rel="shortcut icon" href="https://img.icons8.com/color/96/000000/roof.png" type="image/png">
+    -->
+    
     <!-- متا تگ تایید گوگل سرچ کنسول -->
     <meta name="google-site-verification" content="SSTe_k4cLQvs29sdAPbJAHfMpRhwpcVuXOcf4DT-ccc" />
     
@@ -27,9 +52,6 @@
     
     <!-- Canonical URL -->
     <link rel="canonical" href="https://100isogam.com">
-    
-    <!-- Favicon لوکال -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚧</text></svg>">
     
     <!-- Structured Data -->
     <script type="application/ld+json">
@@ -689,7 +711,6 @@
 
     <script>
         // ==================== داده‌های اولیه ====================
-        // تغییر: قیمت‌ها به حدود 100 هزار تومان کاهش یافت
         let products = JSON.parse(localStorage.getItem('100isogam_products')) || [
             {id: 1, name: 'ایزوگام پلیمری', price: 115000, category: 'پلیمری', image: 'izogam-polymeri.jpg', badge: 'پرفروش'},
             {id: 2, name: 'ایزوگام تقویت شده', price: 125000, category: 'تقویت شده', image: 'izogam-taghviat.jpg', badge: 'جدید'},
@@ -801,7 +822,6 @@
         }
 
         function openCart() {
-            // ایجاد سبد خرید
             const cartModal = document.createElement('div');
             cartModal.className = 'modal active';
             cartModal.innerHTML = `
@@ -883,7 +903,7 @@
             
             localStorage.setItem('100isogam_cart', JSON.stringify(cart));
             updateCartUI();
-            openCart(); // باز کردن مجدد سبد خرید برای بروزرسانی
+            openCart();
         }
 
         function removeFromCart(index) {
@@ -896,17 +916,14 @@
 
         // ==================== بارگذاری اولیه ====================
         document.addEventListener('DOMContentLoaded', function() {
-            // لودر
             setTimeout(() => {
                 document.getElementById('loader').style.display = 'none';
             }, 1500);
             
-            // بارگذاری محصولات
             loadProducts();
             updateCartUI();
             updateUserUI();
             
-            // ایجاد ادمین اگر وجود ندارد
             if (!users.find(u => u.role === 'admin')) {
                 const adminUser = {
                     id: 0,
@@ -923,7 +940,6 @@
                 localStorage.setItem('100isogam_users', JSON.stringify(users));
             }
             
-            // اسکرول نرم
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -933,7 +949,6 @@
                             top: target.offsetTop - 100,
                             behavior: 'smooth'
                         });
-                        // بستن منو در موبایل
                         document.getElementById('mainMenu').classList.remove('active');
                     }
                 });
@@ -941,7 +956,7 @@
             
             console.log('🚀 سایت ۱۰۰ ایزوگام آماده است');
             console.log('👑 ادمین: admin@100isogam.com / admin123');
-            console.log('📞 شماره تماس: 09188528650');
+            console.log('📞 شماره تماس جدید: 09188528650');
         });
 
         // ==================== توابع اضافی ====================
@@ -954,9 +969,8 @@
                     <div class="product-card">
                         <div class="product-image">
                             ${product.badge ? `<div class="product-badge">${product.badge}</div>` : ''}
-                            <div style="width:100%;height:100%;background:linear-gradient(45deg,#f0f0f0,#e0e0e0);display:flex;align-items:center;justify-content:center;">
-                                <i class="fas fa-hard-hat" style="font-size:4rem;color:#ccc;"></i>
-                            </div>
+                            <img src="${product.image}" alt="${product.name}" 
+                                 onerror="this.src='https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80'">
                         </div>
                         <div class="product-content">
                             <h3 class="product-title">${product.name}</h3>
@@ -985,17 +999,14 @@
         }
 
         function showLoginModal() {
-            // کد مودال ورود
             alert('مودال ورود - این بخش نیاز به پیاده‌سازی کامل دارد');
         }
 
         function showRegisterModal() {
-            // کد مودال ثبت‌نام
             alert('مودال ثبت‌نام - این بخش نیاز به پیاده‌سازی کامل دارد');
         }
 
         function openProfileModal() {
-            // کد مودال پروفایل
             alert('مودال پروفایل - این بخش نیاز به پیاده‌سازی کامل دارد');
         }
 
@@ -1011,7 +1022,6 @@
                 return;
             }
             
-            // ثبت سفارش
             const order = {
                 id: orders.length + 1,
                 userId: currentUser.id,
@@ -1025,7 +1035,6 @@
             orders.push(order);
             localStorage.setItem('100isogam_orders', JSON.stringify(orders));
             
-            // خالی کردن سبد
             cart = [];
             localStorage.setItem('100isogam_cart', JSON.stringify(cart));
             updateCartUI();
@@ -1038,7 +1047,6 @@
                 </div>
             `);
             
-            // بستن سبد خرید
             document.querySelector('.modal.active').remove();
             
             console.log(`📦 سفارش جدید #${order.id} از ${currentUser.name}`);
