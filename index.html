@@ -8,14 +8,6 @@
     <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏗️</text></svg>">
     
-    <!-- Google Verification -->
-    <meta name="google-site-verification" content="SSTe_k4cLQvs29sdAPbJAHfMpRhwpcVuXOcf4DT-ccc" />
-    
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="فروش تخصصی انواع ایزوگام و عایق رطوبتی با بهترین قیمت در تهران - ۲۰ سال سابقه درخشان - گارانتی کیفیت">
-    <meta name="keywords" content="ایزوگام, قیمت ایزوگام, فروش ایزوگام, نصب ایزوگام, ایزوگام تهران, عایق رطوبتی, قیر و گونی, عایق بام, واترپروفینگ, ایزوگام سقف">
-    <meta name="author" content="ایزوگام احمدی جاما">
-    
     <!-- Fonts & Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/vazirmatn@5.0.8/index.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -51,7 +43,6 @@
             align-items: center;
             justify-content: center;
             z-index: 9999;
-            transition: opacity 0.5s ease, visibility 0.5s ease;
         }
         
         .loader-content {
@@ -69,12 +60,6 @@
             margin: 0 auto 20px;
             color: white;
             font-size: 2rem;
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
         }
         
         .loader-text {
@@ -112,11 +97,6 @@
             align-items: center; justify-content: center;
             color: white; font-size: 1.8rem;
             box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
-            animation: float 6s ease-in-out infinite;
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
         }
         
         .logo-text h1 { font-size: 1.5rem; color: var(--primary); margin: 0; }
@@ -133,9 +113,6 @@
             padding: 8px;
             border-radius: 10px;
             transition: var(--transition);
-        }
-        .hamburger-menu:hover {
-            background: rgba(26,35,126,0.05);
         }
         
         /* Main Menu */
@@ -186,10 +163,6 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
             transition: var(--transition);
         }
-        .cart-icon:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-        }
         .cart-count {
             position: absolute; top: -8px; left: -8px; 
             background: linear-gradient(45deg, var(--danger), #ff5252);
@@ -197,7 +170,6 @@
             width: 22px; height: 22px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             font-weight: bold;
-            box-shadow: 0 3px 10px rgba(244,67,54,0.3);
         }
         
         /* Buttons */
@@ -210,38 +182,14 @@
             transition: var(--transition);
             font-size: 1rem;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            position: relative;
-            overflow: hidden;
-        }
-        .btn:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: 0.5s;
-        }
-        .btn:hover:before {
-            left: 100%;
         }
         .btn-primary { 
             background: linear-gradient(45deg, var(--primary), var(--secondary)); 
             color: white; 
         }
-        .btn-primary:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 25px rgba(26,35,126,0.2);
-        }
         .btn-secondary { 
             background: white; color: var(--primary); 
             border: 2px solid var(--primary); 
-        }
-        .btn-secondary:hover { 
-            background: var(--primary); color: white;
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(26,35,126,0.15);
         }
         .btn-success {
             background: linear-gradient(45deg, var(--success), #66bb6a);
@@ -260,40 +208,6 @@
             font-size: 0.9rem;
         }
         
-        /* User Menu */
-        .user-menu-container { position: relative; }
-        .user-dropdown {
-            position: absolute; top: 120%; left: 0; 
-            background: white; box-shadow: var(--shadow);
-            border-radius: 15px; padding: 10px 0; 
-            min-width: 220px; display: none; z-index: 1001;
-            border: 1px solid #f0f0f0;
-            animation: slideDown 0.3s ease;
-        }
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .user-dropdown a { 
-            display: flex; align-items: center; gap: 10px;
-            padding: 12px 20px; color: var(--dark); 
-            text-decoration: none; 
-            border-right: 3px solid transparent;
-            transition: var(--transition);
-        }
-        .user-dropdown a:hover { 
-            background: linear-gradient(to left, rgba(26,35,126,0.05), transparent);
-            color: var(--primary); 
-            border-right-color: var(--primary);
-            padding-right: 25px;
-        }
-        .user-dropdown a.logout { color: var(--danger); }
-        .user-dropdown a.logout:hover { 
-            background: linear-gradient(to left, rgba(244,67,54,0.05), transparent);
-            border-right-color: var(--danger);
-        }
-        .user-menu-container:hover .user-dropdown { display: block; }
-        
         /* Hero */
         .hero {
             padding: 160px 0 120px; 
@@ -301,7 +215,6 @@
             color: white; text-align: center; margin-top: 80px;
             position: relative;
             overflow: hidden;
-            clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
         }
         
         /* Products */
@@ -316,10 +229,6 @@
             position: relative;
             border: 1px solid #f0f0f0;
         }
-        .product-card:hover { 
-            transform: translateY(-15px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-        }
         .product-image { 
             height: 220px; overflow: hidden; 
             position: relative;
@@ -327,10 +236,6 @@
         .product-image img { 
             width: 100%; height: 100%; 
             object-fit: cover;
-            transition: transform 0.8s ease;
-        }
-        .product-card:hover .product-image img {
-            transform: scale(1.1);
         }
         .product-badge {
             position: absolute;
@@ -353,14 +258,11 @@
             font-weight: 800; margin: 20px 0; 
         }
         
-        /* Product Actions for Admin */
+        /* Product Actions */
         .product-actions {
             display: flex;
             gap: 10px;
             margin-top: 15px;
-        }
-        .product-actions .btn {
-            flex: 1;
         }
         
         /* Modals */
@@ -368,11 +270,6 @@
             display: none; position: fixed; top: 0; right: 0; bottom: 0; left: 0;
             background: rgba(0,0,0,0.85); z-index: 1002; justify-content: center;
             align-items: center; padding: 20px;
-            animation: fadeIn 0.3s ease;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
         }
         .modal.active { display: flex; }
         .modal-content {
@@ -380,11 +277,6 @@
             width: 100%; max-width: 500px; position: relative; 
             max-height: 90vh; overflow-y: auto;
             box-shadow: 0 30px 60px rgba(0,0,0,0.3);
-            transform: scale(0.9);
-            animation: modalAppear 0.4s ease forwards;
-        }
-        @keyframes modalAppear {
-            to { transform: scale(1); }
         }
         .modal-header {
             display: flex;
@@ -404,11 +296,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: var(--transition);
-        }
-        .modal-close:hover {
-            background: #f5f5f5;
-            color: var(--danger);
         }
         
         /* Admin Panel */
@@ -445,7 +332,6 @@
             cursor: pointer;
             font-weight: 600;
             color: #666;
-            transition: var(--transition);
         }
         .admin-tab.active {
             background: white;
@@ -483,9 +369,6 @@
             text-align: right;
             border-bottom: 1px solid #e0e0e0;
         }
-        .table tr:hover {
-            background: rgba(0, 188, 212, 0.05);
-        }
         .table-actions {
             display: flex;
             gap: 10px;
@@ -493,7 +376,7 @@
         }
         
         /* Forms */
-        .form-group { margin-bottom: 25px; position: relative; }
+        .form-group { margin-bottom: 25px; }
         .form-group label { 
             display: block; margin-bottom: 10px; 
             color: var(--primary); font-weight: 700;
@@ -505,13 +388,7 @@
             width: 100%; padding: 15px; 
             border: 2px solid #e0e0e0; border-radius: 12px;
             font-size: 1rem;
-            transition: var(--transition);
             background: #fafafa;
-        }
-        .form-control:focus { 
-            outline: none; border-color: var(--secondary);
-            box-shadow: 0 0 0 3px rgba(0, 188, 212, 0.1);
-            background: white;
         }
         .form-textarea {
             min-height: 120px;
@@ -523,14 +400,12 @@
             position: fixed; top: 100px; right: 20px; 
             padding: 20px; background: white;
             border-radius: 15px; box-shadow: var(--shadow); 
-            transform: translateX(150%); transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); 
             z-index: 10000; max-width: 400px;
             display: flex;
             align-items: center;
             gap: 15px;
             border-right: 5px solid;
         }
-        .notification.show { transform: translateX(0); }
         .notification.success { border-right-color: var(--success); }
         .notification.error { border-right-color: var(--danger); }
         .notification.warning { border-right-color: var(--accent); }
@@ -539,7 +414,6 @@
         .footer {
             background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
             color: white; padding: 70px 0 40px; margin-top: 80px;
-            clip-path: polygon(0 10%, 100% 0, 100% 100%, 0 100%);
         }
         
         /* Responsive */
@@ -556,7 +430,6 @@
                 border-radius: 20px;
                 margin-top: 20px;
                 box-shadow: var(--shadow);
-                animation: slideDown 0.3s ease;
             }
             .nav-menu.active {
                 display: flex;
@@ -564,29 +437,141 @@
             .hamburger-menu {
                 display: block;
             }
-            .hero h1 {
-                font-size: 2.5rem;
-            }
             .admin-panel {
                 width: 100%;
                 right: -100%;
-            }
-            .product-actions {
-                flex-direction: column;
             }
         }
         
         /* Utilities */
         .d-none { display: none !important; }
         .d-flex { display: flex !important; }
-        .text-center { text-align: center; }
-        .mb-3 { margin-bottom: 15px; }
-        .mb-4 { margin-bottom: 20px; }
-        .mb-5 { margin-bottom: 30px; }
-        .mt-3 { margin-top: 15px; }
-        .mt-4 { margin-top: 20px; }
-        .mt-5 { margin-top: 30px; }
-        
-        /* Scrollbar */
-        ::-webkit-scrollbar { width: 10px; }
-        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 5px; 
+    </style>
+</head>
+<body>
+    <!-- Loader -->
+    <div id="loader">
+        <div class="loader-content">
+            <div class="loader-logo">
+                <i class="fas fa-hard-hat"></i>
+            </div>
+            <p class="loader-text">در حال بارگذاری...</p>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav-container">
+                <a href="#" class="logo">
+                    <div class="logo-icon"><i class="fas fa-hard-hat"></i></div>
+                    <div class="logo-text">
+                        <h1>۱۰۰ ایزوگام</h1>
+                        <span>احمدی جاما</span>
+                    </div>
+                </a>
+                
+                <button class="hamburger-menu" onclick="toggleMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <ul class="nav-menu" id="mainMenu">
+                    <li><a href="#home"><i class="fas fa-home"></i> خانه</a></li>
+                    <li><a href="#products"><i class="fas fa-box"></i> محصولات</a></li>
+                    <li><a href="#about"><i class="fas fa-info-circle"></i> درباره ما</a></li>
+                    <li><a href="#contact"><i class="fas fa-phone"></i> تماس</a></li>
+                    <li id="adminNavAddProduct" class="d-none">
+                        <a href="#" onclick="openAddProductModal()" class="admin-menu-item">
+                            <i class="fas fa-plus-circle"></i> افزودن محصول
+                        </a>
+                    </li>
+                    <li id="adminNavPanel" class="d-none">
+                        <a href="#" onclick="toggleAdminPanel()" class="admin-menu-item">
+                            <i class="fas fa-cog"></i> پنل مدیریت
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="header-actions">
+                    <div class="cart-icon" onclick="openCart()">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span id="cartBadge" class="cart-count">0</span>
+                    </div>
+                    
+                    <div id="userSection" class="d-flex" style="gap:10px;">
+                        <button onclick="showLoginModal()" class="btn btn-secondary">
+                            <i class="fas fa-sign-in-alt"></i> ورود
+                        </button>
+                        <button onclick="showRegisterModal()" class="btn btn-primary">
+                            <i class="fas fa-user-plus"></i> ثبت‌نام
+                        </button>
+                    </div>
+                    
+                    <button id="adminBtn" onclick="toggleAdminPanel()" class="btn btn-danger d-none">
+                        <i class="fas fa-cog"></i> پنل مدیریت
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div style="text-align:center;">
+                <h1 style="font-size:3.5rem;margin-bottom:20px;">۱۰۰ ایزوگام احمدی جاما</h1>
+                <p style="font-size:1.3rem;margin-bottom:30px;">تولید کننده برترین عایق‌های رطوبتی با ۲۰ سال سابقه</p>
+                <div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;">
+                    <a href="#products" class="btn btn-primary">
+                        <i class="fas fa-eye"></i> مشاهده محصولات
+                    </a>
+                    <a href="#contact" class="btn btn-secondary">
+                        <i class="fas fa-headset"></i> مشاوره رایگان
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products -->
+    <section id="products" style="padding:50px 0;">
+        <div class="container">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:30px;">
+                <h2 style="font-size:2.8rem;color:var(--primary);">
+                    <i class="fas fa-box-open"></i> محصولات ما
+                </h2>
+                <button id="adminAddProductBtn" onclick="openAddProductModal()" class="btn btn-success d-none">
+                    <i class="fas fa-plus"></i> افزودن محصول جدید
+                </button>
+            </div>
+            <p style="text-align:center;color:#666;margin-bottom:50px;font-size:1.1rem;">
+                با کیفیت ترین ایزوگام ها با گارانتی ۱۰ ساله - قیمت مناسب
+            </p>
+            
+            <div id="productsContainer" class="products-grid">
+                <!-- Products will load here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div style="text-align:center;">
+                <div class="logo-icon" style="margin:0 auto 20px;width:70px;height:70px;">
+                    <i class="fas fa-hard-hat"></i>
+                </div>
+                <h3 style="font-size:1.8rem;margin-bottom:20px;">۱۰۰ ایزوگام احمدی جاما</h3>
+                <p style="margin-bottom:30px;">تخصص ما در عایق کاری است</p>
+                <p>© تمامی حقوق برای ۱۰۰ ایزوگام احمدی جاما محفوظ است ۱۴۰۳</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Admin Panel -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="modal-header">
+            <h3 style="color:var(--primary);">
+                <i class="fas fa-cog"></i> پنل مدیریت
+            </h3>
+            <button cla
