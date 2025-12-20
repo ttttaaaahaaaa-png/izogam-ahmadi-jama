@@ -779,12 +779,37 @@
         </div>
     </div>
 
+    <!-- سفارشات Modal -->
+    <div class="modal" id="orderModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 style="color:var(--primary);">
+                    <i class="fas fa-receipt"></i> ثبت سفارش
+                </h3>
+                <button class="modal-close" onclick="closeModal('orderModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div id="orderItems">
+                <!-- آیتم های سبد خرید -->
+            </div>
+            
+            <div id="orderTotal" style="margin: 20px 0; font-size: 1.5rem; text-align: center; font-weight: bold;"></div>
+            
+            <div class="form-group">
+                <button onclick="completeOrder()" class="btn btn-success" style="width:100%;">
+                    <i class="fas fa-check"></i> تکمیل سفارش
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // ==================== تابع مخفی کردن لودر ====================
         function hideLoader() {
             const loader = document.getElementById('loader');
             if (loader) {
-                // حتماً بعد از 1.5 ثانیه مخفی می‌شود
                 setTimeout(function() {
                     loader.classList.add('loader-hidden');
                     console.log('لودر مخفی شد');
@@ -792,11 +817,115 @@
             }
         }
         
+        // ==================== سیستم ذخیره‌سازی ====================
+        const storage = {
+            saveProducts(productsList) {
+                localStorage.setItem('isogam_products', JSON.stringify(productsList));
+            },
+            
+            loadProducts() {
+                const data = localStorage.getItem('isogam_products');
+                return data ? JSON.parse(data) : null;
+            },
+            
+            saveOrders(ordersList) {
+                localStorage.setItem('isogam_orders', JSON.stringify(ordersList));
+            },
+            
+            loadOrders() {
+                const data = localStorage.getItem('isogam_orders');
+                return data ? JSON.parse(data) : null;
+            },
+            
+            saveUsers(usersList) {
+                localStorage.setItem('isogam_users', JSON.stringify(usersList));
+            },
+            
+            loadUsers() {
+                const data = localStorage.getItem('isogam_users');
+                return data ? JSON.parse(data) : null;
+            },
+            
+            getCurrentUser() {
+                const data = localStorage.getItem('isogam_currentUser');
+                return data ? JSON.parse(data) : null;
+            },
+            
+            setCurrentUser(user) {
+                if(user) {
+                    localStorage.setItem('isogam_currentUser', JSON.stringify(user));
+                } else {
+                    localStorage.removeItem('isogam_currentUser');
+                }
+            }
+        };
+        
         // ==================== متغیرهای اصلی ====================
-        let products = [];
-        let currentUser = null;
+        // استفاده از تصاویر واقعی و پایدار
+        let products = storage.loadProducts() || [
+            {
+                id: 1, 
+                name: 'ایزوگام پلیمری', 
+                price: 115000, 
+                category: 'پلیمری', 
+                image: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80&h=400&fit=crop', 
+                badge: 'پرفروش'
+            },
+            {
+                id: 2, 
+                name: 'ایزوگام تقویت شده', 
+                price: 125000, 
+                category: 'تقویت شده', 
+                image: 'https://images.unsplash.com/photo-1597848218514-8b2e9aa5d13b?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80&h=400&fit=crop', 
+                badge: 'جدید'
+            },
+            {
+                id: 3, 
+                name: 'ایزوگام مایع', 
+                price: 98000, 
+                category: 'مایع', 
+                image: 'https://images.unsplash.com/photo-1621451537084-482c73073a0f?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80&h=400&fit=crop', 
+                badge: 'اقتصادی'
+            },
+            {
+                id: 4, 
+                name: 'ایزوگام خود چسب', 
+                price: 105000, 
+                category: 'خود چسب', 
+                image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80&h=400&fit=crop', 
+                badge: 'پیشنهاد'
+            },
+            {
+                id: 5, 
+                name: 'ایزوگام معمولی', 
+                price: 85000, 
+                category: 'معمولی', 
+                image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80&h=400&fit=crop', 
+                badge: 'ارزان'
+            },
+            {
+                id: 6, 
+                name: 'ایزوگام ضد حریق', 
+                price: 135000, 
+                category: 'ضد حریق', 
+                image: 'https://images.unsplash.com/photo-1589656966895-2f33e7653819?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80&h=400&fit=crop', 
+                badge: 'ویژه'
+            }
+        ];
+        
+        let orders = storage.loadOrders() || [];
+        let users = storage.loadUsers() || [
+            {
+                name: 'مدیر سیستم', 
+                email: 'admin@100isogam.com', 
+                password: 'admin123', 
+                role: 'admin', 
+                phone: '09188852865'
+            }
+        ];
+        
+        let currentUser = storage.getCurrentUser();
         let cart = [];
-        let orders = [];
         
         // ==================== توابع عمومی ====================
         function showNotification(message, type = 'success') {
@@ -838,6 +967,11 @@
         function openAddProductModal() {
             document.getElementById('productModalTitle').innerHTML = '<i class="fas fa-plus"></i> افزودن محصول جدید';
             document.getElementById('productForm').reset();
+            
+            // تنظیم مجدد تابع onSubmit
+            const form = document.getElementById('productForm');
+            form.onsubmit = saveProduct;
+            
             openModal('productModal');
         }
         
@@ -848,6 +982,13 @@
             }
             const panel = document.getElementById('adminPanel');
             panel.classList.toggle('active');
+            
+            // بارگذاری آمار
+            if(panel.classList.contains('active')) {
+                loadAdminProducts();
+                loadAdminOrders();
+                loadAdminStats();
+            }
         }
         
         function switchAdminTab(tabName) {
@@ -870,16 +1011,6 @@
         
         // ==================== سیستم محصولات ====================
         function loadProducts() {
-            // محصولات نمونه
-            products = [
-                {id: 1, name: 'ایزوگام پلیمری', price: 115000, category: 'پلیمری', image: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80', badge: 'پرفروش'},
-                {id: 2, name: 'ایزوگام تقویت شده', price: 125000, category: 'تقویت شده', image: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80', badge: 'جدید'},
-                {id: 3, name: 'ایزوگام مایع', price: 98000, category: 'مایع', image: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80', badge: 'اقتصادی'},
-                {id: 4, name: 'ایزوگام خود چسب', price: 105000, category: 'خود چسب', image: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80', badge: 'پیشنهاد'},
-                {id: 5, name: 'ایزوگام معمولی', price: 85000, category: 'معمولی', image: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80', badge: 'ارزان'},
-                {id: 6, name: 'ایزوگام ضد حریق', price: 135000, category: 'ضد حریق', image: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80', badge: 'ویژه'}
-            ];
-            
             const container = document.getElementById('productsContainer');
             if (!container) return;
             
@@ -890,7 +1021,7 @@
                     <div class="product-card">
                         <div class="product-image">
                             <div class="product-badge">${product.badge}</div>
-                            <img src="${product.image}" alt="${product.name}">
+                            <img src="${product.image}" alt="${product.name}" loading="lazy">
                         </div>
                         <div class="product-content">
                             <h3 class="product-title">${product.name}</h3>
@@ -936,12 +1067,15 @@
                 return;
             }
             
-            let cartItems = '';
+            const orderItems = document.getElementById('orderItems');
+            const orderTotal = document.getElementById('orderTotal');
+            
+            let itemsHTML = '';
             let total = 0;
             
             cart.forEach((item, index) => {
-                cartItems += `
-                    <div style="display:flex;justify-content:space-between;padding:10px;border-bottom:1px solid #eee;">
+                itemsHTML += `
+                    <div style="display:flex;justify-content:space-between;padding:15px;border-bottom:1px solid #eee;">
                         <div>${item.name}</div>
                         <div>${formatPrice(item.price)}</div>
                     </div>
@@ -949,16 +1083,43 @@
                 total += item.price;
             });
             
-            showNotification(`
-                <div>
-                    <h4>سبد خرید</h4>
-                    ${cartItems}
-                    <div style="display:flex;justify-content:space-between;margin-top:10px;font-weight:bold;">
-                        <div>جمع کل:</div>
-                        <div>${formatPrice(total)}</div>
-                    </div>
-                </div>
-            `);
+            orderItems.innerHTML = itemsHTML;
+            orderTotal.innerHTML = `جمع کل: ${formatPrice(total)}`;
+            
+            openModal('orderModal');
+        }
+        
+        function completeOrder() {
+            if (cart.length === 0) {
+                showNotification('سبد خرید شما خالی است', 'error');
+                return;
+            }
+            
+            if (!currentUser) {
+                showNotification('لطفاً ابتدا وارد حساب کاربری شوید', 'error');
+                closeModal('orderModal');
+                openModal('loginModal');
+                return;
+            }
+            
+            const newOrder = {
+                id: orders.length + 1,
+                date: new Date().toLocaleDateString('fa-IR'),
+                items: [...cart],
+                total: cart.reduce((sum, item) => sum + item.price, 0),
+                customer: currentUser.name,
+                customerEmail: currentUser.email,
+                status: 'در انتظار پرداخت'
+            };
+            
+            orders.push(newOrder);
+            storage.saveOrders(orders);
+            
+            cart = [];
+            document.getElementById('cartBadge').textContent = '0';
+            
+            closeModal('orderModal');
+            showNotification(`سفارش شما با شماره ${newOrder.id} ثبت شد`);
         }
         
         // ==================== سیستم کاربران ====================
@@ -967,20 +1128,38 @@
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
             
+            // بررسی مدیر سیستم
             if (email === 'admin@100isogam.com' && password === 'admin123') {
                 currentUser = {
                     name: 'مدیر سیستم',
                     email: email,
                     role: 'admin'
                 };
+                storage.setCurrentUser(currentUser);
                 showNotification('خوش آمدید مدیر سیستم');
                 closeModal('loginModal');
                 updateUserUI();
                 return false;
-            } else {
-                showNotification('ایمیل یا رمز عبور اشتباه است', 'error');
+            }
+            
+            // بررسی کاربران عادی
+            const user = users.find(u => u.email === email && u.password === password);
+            if (user) {
+                currentUser = {
+                    name: user.name,
+                    email: user.email,
+                    phone: user.phone,
+                    role: user.role || 'user'
+                };
+                storage.setCurrentUser(currentUser);
+                showNotification(`خوش آمدید ${user.name}`);
+                closeModal('loginModal');
+                updateUserUI();
                 return false;
             }
+            
+            showNotification('ایمیل یا رمز عبور اشتباه است', 'error');
+            return false;
         }
         
         function registerUser(event) {
@@ -990,12 +1169,30 @@
             const phone = document.getElementById('registerPhone').value;
             const password = document.getElementById('registerPassword').value;
             
+            // بررسی وجود کاربر با همین ایمیل
+            if (users.find(u => u.email === email)) {
+                showNotification('این ایمیل قبلاً ثبت شده است', 'error');
+                return false;
+            }
+            
+            const newUser = {
+                name: name,
+                email: email,
+                phone: phone,
+                password: password,
+                role: 'user'
+            };
+            
+            users.push(newUser);
+            storage.saveUsers(users);
+            
             currentUser = {
                 name: name,
                 email: email,
                 phone: phone,
                 role: 'user'
             };
+            storage.setCurrentUser(currentUser);
             
             showNotification('حساب کاربری با موفقیت ایجاد شد');
             closeModal('registerModal');
@@ -1005,6 +1202,7 @@
         
         function logout() {
             currentUser = null;
+            storage.setCurrentUser(null);
             showNotification('با موفقیت از حساب کاربری خارج شدید');
             updateUserUI();
         }
@@ -1065,7 +1263,7 @@
             const image = document.getElementById('productImage').value;
             
             const newProduct = {
-                id: products.length + 1,
+                id: products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1,
                 name: name,
                 price: parseInt(price),
                 category: category,
@@ -1074,6 +1272,7 @@
             };
             
             products.push(newProduct);
+            storage.saveProducts(products);
             showNotification('محصول با موفقیت اضافه شد');
             closeModal('productModal');
             loadProducts();
@@ -1099,6 +1298,7 @@
                 product.category = document.getElementById('productCategory').value;
                 product.image = document.getElementById('productImage').value;
                 
+                storage.saveProducts(products);
                 showNotification('محصول با موفقیت ویرایش شد');
                 closeModal('productModal');
                 loadProducts();
@@ -1116,10 +1316,70 @@
                 const index = products.findIndex(p => p.id === productId);
                 if (index !== -1) {
                     products.splice(index, 1);
+                    storage.saveProducts(products);
                     showNotification('محصول با موفقیت حذف شد');
                     loadProducts();
                 }
             }
+        }
+        
+        // ==================== پنل مدیریت ====================
+        function loadAdminProducts() {
+            const container = document.getElementById('adminProductsList');
+            if (!container) return;
+            
+            let html = '';
+            
+            products.forEach(product => {
+                html += `
+                    <tr>
+                        <td>${product.name}</td>
+                        <td>${formatPrice(product.price)}</td>
+                        <td>${product.category}</td>
+                        <td>
+                            <div class="table-actions">
+                                <button onclick="editProduct(${product.id})" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button onclick="deleteProduct(${product.id})" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        function loadAdminOrders() {
+            const container = document.getElementById('adminOrdersList');
+            if (!container) return;
+            
+            let html = '';
+            
+            orders.forEach(order => {
+                html += `
+                    <tr>
+                        <td>${order.id}</td>
+                        <td>${order.customer}</td>
+                        <td>${formatPrice(order.total)}</td>
+                        <td>
+                            <span style="padding:5px 10px;background:#ff9800;color:white;border-radius:5px;">
+                                ${order.status}
+                            </span>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        function loadAdminStats() {
+            document.getElementById('statsProductsCount').textContent = products.length;
+            document.getElementById('statsOrdersCount').textContent = orders.length;
         }
         
         // ==================== بارگذاری اولیه ====================
@@ -1129,13 +1389,8 @@
             // حتماً لودر را مخفی کن
             hideLoader();
             
-            // بارگذاری محصولات
-            loadProducts();
-            
-            // تنظیم رویداد فرم‌ها
-            document.getElementById('loginForm').addEventListener('submit', loginUser);
-            document.getElementById('registerForm').addEventListener('submit', registerUser);
-            document.getElementById('productForm').addEventListener('submit', saveProduct);
+            // بارگذاری اولیه
+            updateUserUI();
             
             console.log('سایت ۱۰۰ ایزوگام آماده است');
             console.log('برای ورود به پنل مدیریت:');
@@ -1156,7 +1411,7 @@
                 console.log('Timeout اضطراری - مخفی کردن لودر');
                 loader.classList.add('loader-hidden');
             }
-        }, 3000); // حداکثر 3 ثانیه
+        }, 3000);
     </script>
 </body>
     </html>
