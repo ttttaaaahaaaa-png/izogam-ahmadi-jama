@@ -584,6 +584,42 @@
         .d-flex { display: flex !important; }
         .d-block { display: block !important; }
         .w-100 { width: 100% !important; }
+        
+        /* استایل برای بخش مدیریت کاربران */
+        .user-role-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: inline-block;
+        }
+        
+        .admin-role {
+            background-color: #1a237e;
+            color: white;
+        }
+        
+        .user-role {
+            background-color: #4caf50;
+            color: white;
+        }
+        
+        .table-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        /* بهبود ظاهر جدول کاربران */
+        .table th, .table td {
+            padding: 12px 15px;
+            vertical-align: middle;
+        }
+        
+        /* استایل برای صفحه‌بندی */
+        nav button[disabled] {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
@@ -760,6 +796,7 @@
         <div class="admin-tabs">
             <button class="admin-tab active" onclick="switchAdminTab('products')">محصولات</button>
             <button class="admin-tab" onclick="switchAdminTab('orders')">سفارشات</button>
+            <button class="admin-tab" onclick="switchAdminTab('users')">کاربران</button>
             <button class="admin-tab" onclick="switchAdminTab('stats')">آمار</button>
         </div>
         
@@ -806,6 +843,42 @@
             </div>
         </div>
         
+        <div id="adminUsers" class="admin-section">
+            <h4>مدیریت کاربران</h4>
+            <div style="margin-bottom: 20px;">
+                <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                    <input type="text" id="searchUsers" class="form-control" placeholder="جستجو در کاربران..." 
+                           style="flex: 1; min-width: 200px;" onkeyup="searchUsersList()">
+                    <button onclick="exportUsersToExcel()" class="btn btn-success btn-sm">
+                        <i class="fas fa-file-excel"></i> خروجی اکسل
+                    </button>
+                </div>
+            </div>
+            
+            <div style="overflow-x: auto;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>نام کامل</th>
+                            <th>ایمیل</th>
+                            <th>شماره تماس</th>
+                            <th>نقش</th>
+                            <th>تاریخ ثبت‌نام</th>
+                            <th>عملیات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminUsersList">
+                        <!-- لیست کاربران اینجا نمایش داده می‌شود -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div id="usersPagination" style="display: flex; justify-content: center; margin-top: 20px;">
+                <!-- پagination اینجا ایجاد می‌شود -->
+            </div>
+        </div>
+        
         <div id="adminStats" class="admin-section">
             <h4>آمار کلی</h4>
             <div style="display:grid;grid-template-columns:repeat(2, 1fr);gap:20px;margin-top:20px;">
@@ -818,6 +891,11 @@
                     <i class="fas fa-shopping-cart" style="color:var(--secondary);font-size:2rem;"></i>
                     <h3 id="statsOrdersCount" style="margin:10px 0;">0</h3>
                     <p>سفارشات فعال</p>
+                </div>
+                <div style="background:#f8f9fa;padding:20px;border-radius:15px;text-align:center;">
+                    <i class="fas fa-users" style="color:var(--accent);font-size:2rem;"></i>
+                    <h3 id="statsUsersCount" style="margin:10px 0;">0</h3>
+                    <p>تعداد کاربران</p>
                 </div>
             </div>
         </div>
@@ -1150,12 +1228,19 @@
                 email: 'admin@100isogam.com', 
                 password: 'admin123', 
                 role: 'admin', 
-                phone: '09188852865'
+                phone: '09188852865',
+                registerDate: '۱۴۰۳/۰۱/۰۱',
+                lastLogin: '۱۴۰۳/۰۱/۰۱ ۱۲:۰۰'
             }
         ];
         
         let currentUser = storage.getCurrentUser();
         let cart = storage.loadCart() || [];
+        
+        // ==================== متغیرهای مدیریت کاربران ====================
+        let currentUsersPage = 1;
+        const usersPerPage = 10;
+        let filteredUsers = [];
         
         // ==================== توابع عمومی ====================
         function showNotification(message, type = 'success') {
@@ -1199,7 +1284,6 @@
             document.getElementById('productModalTitle').innerHTML = '<i class="fas fa-plus"></i> افزودن محصول جدید';
             document.getElementById('productForm').reset();
             
-            // تنظیم مجدد تابع onSubmit
             const form = document.getElementById('productForm');
             form.onsubmit = saveProduct;
             
@@ -1214,7 +1298,6 @@
             const panel = document.getElementById('adminPanel');
             panel.classList.toggle('active');
             
-            // بارگذاری آمار
             if(panel.classList.contains('active')) {
                 loadAdminProducts();
                 loadAdminOrders();
@@ -1223,21 +1306,32 @@
         }
         
         function switchAdminTab(tabName) {
-            // مخفی کردن تمام تب‌ها
             document.querySelectorAll('.admin-section').forEach(section => {
                 section.classList.remove('active');
             });
             
-            // غیرفعال کردن تمام دکمه‌های تب
             document.querySelectorAll('.admin-tab').forEach(tab => {
                 tab.classList.remove('active');
             });
             
-            // نمایش تب انتخاب شده
             document.getElementById(`admin${tabName.charAt(0).toUpperCase() + tabName.slice(1)}`).classList.add('active');
             
-            // فعال کردن دکمه تب
             event.target.classList.add('active');
+            
+            switch(tabName) {
+                case 'products':
+                    loadAdminProducts();
+                    break;
+                case 'orders':
+                    loadAdminOrders();
+                    break;
+                case 'users':
+                    loadAdminUsers();
+                    break;
+                case 'stats':
+                    loadAdminStats();
+                    break;
+            }
         }
         
         // ==================== سیستم سبد خرید پیشرفته ====================
@@ -1351,8 +1445,7 @@
             
             cartItemsContainer.innerHTML = itemsHTML;
             
-            // محاسبه جمع کل و تخفیف
-            const discount = subtotal > 500000 ? Math.floor(subtotal * 0.1) : 0; // 10% تخفیف برای خرید بالای 500,000 تومان
+            const discount = subtotal > 500000 ? Math.floor(subtotal * 0.1) : 0;
             const total = subtotal - discount;
             
             document.getElementById('cartSubtotal').textContent = formatPrice(subtotal);
@@ -1378,7 +1471,6 @@
                 return;
             }
             
-            // محاسبه جمع کل
             const subtotal = cart.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
             const discount = subtotal > 500000 ? Math.floor(subtotal * 0.1) : 0;
             const total = subtotal - discount;
@@ -1399,7 +1491,6 @@
             orders.push(newOrder);
             storage.saveOrders(orders);
             
-            // تخلیه سبد خرید
             cart = [];
             storage.saveCart(cart);
             updateCartBadge();
@@ -1463,13 +1554,298 @@
             container.innerHTML = html;
         }
         
+        // ==================== سیستم مدیریت کاربران ====================
+        function loadAdminUsers() {
+            const container = document.getElementById('adminUsersList');
+            const paginationContainer = document.getElementById('usersPagination');
+            
+            if (!container) return;
+            
+            if (filteredUsers.length === 0) {
+                filteredUsers = [...users];
+            }
+            
+            const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+            const startIndex = (currentUsersPage - 1) * usersPerPage;
+            const endIndex = startIndex + usersPerPage;
+            const currentUsers = filteredUsers.slice(startIndex, endIndex);
+            
+            let html = '';
+            
+            currentUsers.forEach((user, index) => {
+                const registerDate = user.registerDate || '۱۴۰۳/۰۱/۰۱';
+                
+                html += `
+                    <tr>
+                        <td>${startIndex + index + 1}</td>
+                        <td>${user.name}</td>
+                        <td>${user.email}</td>
+                        <td>${user.phone || 'ثبت نشده'}</td>
+                        <td>
+                            <span class="user-role-badge ${user.role === 'admin' ? 'admin-role' : 'user-role'}">
+                                ${user.role === 'admin' ? 'مدیر' : 'کاربر عادی'}
+                            </span>
+                        </td>
+                        <td>${registerDate}</td>
+                        <td>
+                            <div class="table-actions">
+                                <button onclick="viewUserDetails(${index})" class="btn btn-primary btn-sm" title="مشاهده جزئیات">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button onclick="editUserRole(${index})" class="btn btn-warning btn-sm" title="تغییر نقش">
+                                    <i class="fas fa-user-cog"></i>
+                                </button>
+                                ${user.role !== 'admin' ? `
+                                    <button onclick="deleteUser(${index})" class="btn btn-danger btn-sm" title="حذف کاربر">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                ` : ''}
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            container.innerHTML = html;
+            
+            createUsersPagination(totalPages, paginationContainer);
+        }
+        
+        function createUsersPagination(totalPages, container) {
+            if (totalPages <= 1) {
+                container.innerHTML = '';
+                return;
+            }
+            
+            let paginationHTML = `
+                <nav style="display: flex; gap: 5px; align-items: center;">
+                    <button onclick="changeUsersPage(${currentUsersPage - 1})" 
+                            ${currentUsersPage === 1 ? 'disabled' : ''}
+                            class="btn btn-sm btn-secondary">
+                        <i class="fas fa-chevron-right"></i> قبلی
+                    </button>
+            `;
+            
+            let startPage = Math.max(1, currentUsersPage - 2);
+            let endPage = Math.min(totalPages, startPage + 4);
+            
+            if (endPage - startPage < 4) {
+                startPage = Math.max(1, endPage - 4);
+            }
+            
+            for (let i = startPage; i <= endPage; i++) {
+                paginationHTML += `
+                    <button onclick="changeUsersPage(${i})" 
+                            class="btn btn-sm ${i === currentUsersPage ? 'btn-primary' : 'btn-secondary'}">
+                        ${i}
+                    </button>
+                `;
+            }
+            
+            paginationHTML += `
+                    <button onclick="changeUsersPage(${currentUsersPage + 1})" 
+                            ${currentUsersPage === totalPages ? 'disabled' : ''}
+                            class="btn btn-sm btn-secondary">
+                        بعدی <i class="fas fa-chevron-left"></i>
+                    </button>
+                </nav>
+            `;
+            
+            container.innerHTML = paginationHTML;
+        }
+        
+        function changeUsersPage(page) {
+            const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+            
+            if (page < 1 || page > totalPages) return;
+            
+            currentUsersPage = page;
+            loadAdminUsers();
+        }
+        
+        function searchUsersList() {
+            const searchInput = document.getElementById('searchUsers');
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            
+            if (searchTerm === '') {
+                filteredUsers = [...users];
+            } else {
+                filteredUsers = users.filter(user => 
+                    user.name.toLowerCase().includes(searchTerm) ||
+                    user.email.toLowerCase().includes(searchTerm) ||
+                    (user.phone && user.phone.includes(searchTerm))
+                );
+            }
+            
+            currentUsersPage = 1;
+            loadAdminUsers();
+        }
+        
+        function viewUserDetails(userIndex) {
+            const user = filteredUsers[userIndex];
+            
+            Swal.fire({
+                title: 'جزئیات کاربر',
+                html: `
+                    <div style="text-align: right; direction: rtl;">
+                        <div style="margin-bottom: 15px;">
+                            <strong>نام کامل:</strong> ${user.name}
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <strong>ایمیل:</strong> ${user.email}
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <strong>شماره تماس:</strong> ${user.phone || 'ثبت نشده'}
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <strong>نقش:</strong> ${user.role === 'admin' ? 'مدیر سیستم' : 'کاربر عادی'}
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <strong>تاریخ ثبت‌نام:</strong> ${user.registerDate || '۱۴۰۳/۰۱/۰۱'}
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <strong>آخرین ورود:</strong> ${user.lastLogin || 'نامشخص'}
+                        </div>
+                    </div>
+                `,
+                icon: 'info',
+                confirmButtonText: 'بستن'
+            });
+        }
+        
+        function editUserRole(userIndex) {
+            const user = filteredUsers[userIndex];
+            
+            Swal.fire({
+                title: 'تغییر نقش کاربر',
+                html: `
+                    <div style="text-align: right; direction: rtl;">
+                        <p>کاربر: <strong>${user.name}</strong></p>
+                        <select id="roleSelect" class="form-control" style="margin-top: 15px;">
+                            <option value="user" ${user.role === 'user' ? 'selected' : ''}>کاربر عادی</option>
+                            <option value="admin" ${user.role === 'admin' ? 'selected' : ''}>مدیر سیستم</option>
+                        </select>
+                    </div>
+                `,
+                showCancelButton: true,
+                confirmButtonText: 'ذخیره تغییرات',
+                cancelButtonText: 'لغو',
+                preConfirm: () => {
+                    const newRole = document.getElementById('roleSelect').value;
+                    
+                    const mainUserIndex = users.findIndex(u => u.email === user.email);
+                    if (mainUserIndex !== -1) {
+                        users[mainUserIndex].role = newRole;
+                        storage.saveUsers(users);
+                        
+                        filteredUsers[userIndex].role = newRole;
+                        
+                        if (currentUser && currentUser.email === user.email) {
+                            currentUser.role = newRole;
+                            storage.setCurrentUser(currentUser);
+                            updateUserUI();
+                        }
+                        
+                        return newRole;
+                    }
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    showNotification(`نقش کاربر به ${result.value === 'admin' ? 'مدیر' : 'کاربر عادی'} تغییر یافت`);
+                    loadAdminUsers();
+                }
+            });
+        }
+        
+        function deleteUser(userIndex) {
+            const user = filteredUsers[userIndex];
+            
+            Swal.fire({
+                title: 'حذف کاربر',
+                html: `
+                    <div style="text-align: right; direction: rtl;">
+                        <p>آیا از حذف کاربر <strong>${user.name}</strong> مطمئن هستید؟</p>
+                        <p style="color: #f44336; font-size: 0.9rem;">این عمل قابل بازگشت نیست!</p>
+                    </div>
+                `,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'بله، حذف شود',
+                cancelButtonText: 'لغو',
+                confirmButtonColor: '#d33'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const mainUserIndex = users.findIndex(u => u.email === user.email);
+                    if (mainUserIndex !== -1) {
+                        users.splice(mainUserIndex, 1);
+                        storage.saveUsers(users);
+                        
+                        filteredUsers.splice(userIndex, 1);
+                        
+                        if (currentUser && currentUser.email === user.email) {
+                            currentUser = null;
+                            storage.setCurrentUser(null);
+                            updateUserUI();
+                        }
+                        
+                        showNotification('کاربر با موفقیت حذف شد');
+                        loadAdminUsers();
+                    }
+                }
+            });
+        }
+        
+        function exportUsersToExcel() {
+            let csvContent = "data:text/csv;charset=utf-8,\uFEFF";
+            
+            csvContent += "نام کامل,ایمیل,شماره تماس,نقش,تاریخ ثبت‌نام\n";
+            
+            users.forEach(user => {
+                const row = [
+                    `"${user.name}"`,
+                    `"${user.email}"`,
+                    `"${user.phone || ''}"`,
+                    `"${user.role === 'admin' ? 'مدیر' : 'کاربر عادی'}"`,
+                    `"${user.registerDate || '۱۴۰۳/۰۱/۰۱'}"`
+                ].join(',');
+                
+                csvContent += row + "\n";
+            });
+            
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "users_list_100isogam.csv");
+            document.body.appendChild(link);
+            
+            link.click();
+            document.body.removeChild(link);
+            
+            showNotification('فایل لیست کاربران دانلود شد');
+        }
+        
+        function addRegisterDateToUsers() {
+            const today = new Date().toLocaleDateString('fa-IR');
+            let needsUpdate = false;
+            
+            users.forEach(user => {
+                if (!user.registerDate) {
+                    user.registerDate = today;
+                    needsUpdate = true;
+                }
+            });
+            
+            if (needsUpdate) {
+                storage.saveUsers(users);
+            }
+        }
+        
         // ==================== سیستم کاربران ====================
         function loginUser(event) {
             event.preventDefault();
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
             
-            // بررسی مدیر سیستم
             if (email === 'admin@100isogam.com' && password === 'admin123') {
                 currentUser = {
                     name: 'مدیر سیستم',
@@ -1483,9 +1859,11 @@
                 return false;
             }
             
-            // بررسی کاربران عادی
             const user = users.find(u => u.email === email && u.password === password);
             if (user) {
+                user.lastLogin = new Date().toLocaleDateString('fa-IR') + ' ' + new Date().toLocaleTimeString('fa-IR');
+                storage.saveUsers(users);
+                
                 currentUser = {
                     name: user.name,
                     email: user.email,
@@ -1510,7 +1888,6 @@
             const phone = document.getElementById('registerPhone').value;
             const password = document.getElementById('registerPassword').value;
             
-            // بررسی وجود کاربر با همین ایمیل
             if (users.find(u => u.email === email)) {
                 showNotification('این ایمیل قبلاً ثبت شده است', 'error');
                 return false;
@@ -1521,7 +1898,9 @@
                 email: email,
                 phone: phone,
                 password: password,
-                role: 'user'
+                role: 'user',
+                registerDate: new Date().toLocaleDateString('fa-IR'),
+                lastLogin: new Date().toLocaleDateString('fa-IR') + ' ' + new Date().toLocaleTimeString('fa-IR')
             };
             
             users.push(newUser);
@@ -1644,7 +2023,6 @@
             document.getElementById('productCategory').value = product.category;
             document.getElementById('productImage').value = product.image;
             
-            // تغییر رفتار فرم برای ویرایش
             const form = document.getElementById('productForm');
             form.onsubmit = function(e) {
                 e.preventDefault();
@@ -1658,7 +2036,6 @@
                 closeModal('productModal');
                 loadProducts();
                 
-                // بازگرداندن رفتار اصلی فرم
                 form.onsubmit = saveProduct;
                 return false;
             };
@@ -1725,7 +2102,6 @@
             
             let html = '';
             
-            // مرتب سازی سفارشات بر اساس زمان (جدیدترین اول)
             const sortedOrders = [...orders].sort((a, b) => b.timestamp - a.timestamp);
             
             sortedOrders.forEach(order => {
@@ -1749,20 +2125,20 @@
         function loadAdminStats() {
             document.getElementById('statsProductsCount').textContent = products.length;
             document.getElementById('statsOrdersCount').textContent = orders.length;
+            document.getElementById('statsUsersCount').textContent = users.length;
         }
         
         // ==================== بارگذاری اولیه ====================
         document.addEventListener('DOMContentLoaded', function() {
             console.log('صفحه بارگذاری شد - مخفی کردن لودر...');
             
-            // حتماً لودر را مخفی کن
             hideLoader();
             
-            // بارگذاری اولیه
+            addRegisterDateToUsers();
+            
             updateUserUI();
             updateCartBadge();
             
-            // بستن منو با کلیک بیرون از آن
             document.addEventListener('click', function(event) {
                 const menu = document.getElementById('mainMenu');
                 const hamburger = document.querySelector('.hamburger-menu');
@@ -1778,15 +2154,14 @@
             console.log('برای ورود به پنل مدیریت:');
             console.log('ایمیل: admin@100isogam.com');
             console.log('رمز عبور: admin123');
+            console.log('تعداد کاربران ثبت‌نام شده:', users.length);
         });
         
-        // یک تابع پشتیبان برای مخفی کردن لودر
         window.addEventListener('load', function() {
             console.log('تمام منابع بارگذاری شدند - مخفی کردن لودر');
             hideLoader();
         });
         
-        // اگر همه چیز شکست خورد، یک timeout دیگر
         setTimeout(function() {
             const loader = document.getElementById('loader');
             if (loader && !loader.classList.contains('loader-hidden')) {
